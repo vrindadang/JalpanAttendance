@@ -3,13 +3,20 @@ import { AttendanceRecord } from "../types";
 
 export const GeminiService = {
   generateDailySummary: async (date: string, records: AttendanceRecord[]): Promise<string> => {
+    // Accessing process.env inside the function to avoid module-level initialization errors
+    const API_KEY = process.env.API_KEY;
+
+    if (!API_KEY) {
+      console.warn("API Key is missing in environment.");
+      return "AI analysis is currently unavailable. Please contact the administrator.";
+    }
+
     if (records.length === 0) {
       return "No records found for this date to analyze.";
     }
 
     try {
-      // Fix: Use the API key string directly when initializing the client as per guidelines.
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: API_KEY });
       
       const recordsText = records.map(r => 
         `- ${r.sewadarName} at ${r.counterName}: ${r.inTime} to ${r.outTime || 'Present'}`
@@ -36,11 +43,10 @@ export const GeminiService = {
         contents: prompt,
       });
 
-      // Fix: Access response.text as a property, not a method.
       return response.text || "Could not generate summary.";
     } catch (error) {
       console.error("Gemini API Error:", error);
-      return "An error occurred while generating the AI summary.";
+      return "An error occurred while generating the AI summary. Please try manually sharing the logs.";
     }
   }
 };
