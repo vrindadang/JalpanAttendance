@@ -1,7 +1,5 @@
 {
   "name": "Jalpan Sewa Attendance",
   "description": "A comprehensive attendance management system for Jalpan service sewadars. Track counters, shift timings, and generate smart daily reports with AI insights.",
-  "requestFramePermissions": [
-    "camera"
-  ]
+  "requestFramePermissions": []
 }

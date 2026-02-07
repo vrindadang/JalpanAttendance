@@ -1,14 +1,12 @@
 import { GoogleGenAI } from "@google/genai";
 import { AttendanceRecord } from "../types";
 
+const API_KEY = process.env.API_KEY;
+
 export const GeminiService = {
   generateDailySummary: async (date: string, records: AttendanceRecord[]): Promise<string> => {
-    // Accessing process.env inside the function to avoid module-level initialization errors
-    const API_KEY = process.env.API_KEY;
-
     if (!API_KEY) {
-      console.warn("API Key is missing in environment.");
-      return "AI analysis is currently unavailable. Please contact the administrator.";
+      return "API Key is missing. Please configure the environment variable.";
     }
 
     if (records.length === 0) {
@@ -46,7 +44,7 @@ export const GeminiService = {
       return response.text || "Could not generate summary.";
     } catch (error) {
       console.error("Gemini API Error:", error);
-      return "An error occurred while generating the AI summary. Please try manually sharing the logs.";
+      return "An error occurred while generating the AI summary.";
     }
   }
 };
