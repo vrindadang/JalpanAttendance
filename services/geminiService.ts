@@ -1,20 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import { AttendanceRecord } from "../types";
 
-const API_KEY = process.env.API_KEY;
-
 export const GeminiService = {
   generateDailySummary: async (date: string, records: AttendanceRecord[]): Promise<string> => {
-    if (!API_KEY) {
-      return "API Key is missing. Please configure the environment variable.";
-    }
-
     if (records.length === 0) {
       return "No records found for this date to analyze.";
     }
 
     try {
-      const ai = new GoogleGenAI({ apiKey: API_KEY });
+      // Fix: Use the API key string directly when initializing the client as per guidelines.
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
       const recordsText = records.map(r => 
         `- ${r.sewadarName} at ${r.counterName}: ${r.inTime} to ${r.outTime || 'Present'}`
@@ -41,6 +36,7 @@ export const GeminiService = {
         contents: prompt,
       });
 
+      // Fix: Access response.text as a property, not a method.
       return response.text || "Could not generate summary.";
     } catch (error) {
       console.error("Gemini API Error:", error);

@@ -15,22 +15,25 @@
             },
             colors: {
               primary: {
-                50: '#f0f9ff',  /* Sky 50 */
-                100: '#e0f2fe', /* Sky 100 */
-                500: '#0ea5e9', /* Sky 500 */
-                600: '#0284c7', /* Sky 600 */
-                700: '#0369a1', /* Sky 700 */
-                800: '#075985', /* Sky 800 */
-                900: '#0c4a6e', /* Sky 900 */
+                50: '#f0fdf4',  /* Emerald 50 */
+                100: '#dcfce7', /* Emerald 100 */
+                500: '#10b981', /* Emerald 500 */
+                600: '#059669', /* Emerald 600 */
+                700: '#047857', /* Emerald 700 */
+                800: '#065f46', /* Emerald 800 */
+                900: '#064e3b', /* Emerald 900 */
               },
-              stone: {
-                850: '#1c1917',
+              brand: {
+                50: '#f8fafc',
+                500: '#64748b',
+                900: '#0f172a',
               }
             },
             animation: {
               'fade-in': 'fadeIn 0.3s ease-out forwards',
               'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               'scale-in': 'scaleIn 0.2s ease-out forwards',
+              'pulse-soft': 'pulseSoft 2s infinite ease-in-out',
             },
             keyframes: {
               fadeIn: {
@@ -38,12 +41,16 @@
                 '100%': { opacity: '1' },
               },
               slideUp: {
-                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '0%': { transform: 'translateY(15px)', opacity: '0' },
                 '100%': { transform: 'translateY(0)', opacity: '1' },
               },
               scaleIn: {
-                '0%': { transform: 'scale(0.95)', opacity: '0' },
+                '0%': { transform: 'scale(0.98)', opacity: '0' },
                 '100%': { transform: 'scale(1)', opacity: '1' },
+              },
+              pulseSoft: {
+                '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+                '50%': { opacity: '0.8', transform: 'scale(0.98)' },
               }
             }
           },
@@ -51,39 +58,28 @@
       }
     </script>
     <style>
-      /* Smooth Scrolling */
-      html {
-        scroll-behavior: smooth;
+      html, body {
+        height: 100%;
+        overflow-x: hidden;
       }
-      
-      /* Premium Scrollbar */
+      body {
+        background-color: #F8FAFC;
+        color: #0F172A;
+        -webkit-tap-highlight-color: transparent;
+      }
       ::-webkit-scrollbar {
         width: 0px;
         background: transparent;
       }
-      
-      body {
-        background-color: #FAFAF9; /* Stone 50 */
-        color: #1C1917; /* Stone 900 */
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      /* Glassmorphism Utilities */
       .glass {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(241, 245, 249, 1);
       }
-      
-      .glass-card {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(8px);
-        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.8);
+      .card-shadow {
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
       }
-
-      /* Hide Date Input Icon */
       input[type="date"]::-webkit-calendar-picker-indicator {
         opacity: 0;
         width: 100%;
@@ -93,23 +89,28 @@
         left: 0;
         cursor: pointer;
       }
+      .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+      }
     </style>
-  <script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-router-dom": "https://esm.sh/react-router-dom@7.1.3",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0",
+    "@google/genai": "https://esm.sh/@google/genai@1.40.0",
+    "html2canvas": "https://esm.sh/html2canvas@1.4.1",
     "jspdf": "https://esm.sh/jspdf@2.5.1",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.45.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
-</head>
+  </head>
   <body>
     <div id="root"></div>
   </body>
