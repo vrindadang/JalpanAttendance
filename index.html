@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
+      // Prevent ReferenceError: process is not defined in production environments
+      window.process = window.process || { env: {} };
+      
       tailwind.config = {
         theme: {
           extend: {
@@ -105,5 +108,7 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Load the main entry point of the app -->
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>

@@ -1,20 +1,15 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { AttendanceRecord } from "../types";
 
 export const GeminiService = {
   generateDailySummary: async (date: string, records: AttendanceRecord[]): Promise<string> => {
-    // Guidelines state we must assume process.env.API_KEY is available and configured
-    if (!process.env.API_KEY) {
-      console.warn("API Key is missing in environment.");
-      return "AI analysis is currently unavailable. Please configure the environment variable.";
-    }
-
     if (records.length === 0) {
       return "No records found for this date to analyze.";
     }
 
     try {
-      // Initialize GoogleGenAI right before the call using the direct process.env.API_KEY string
+      // Always initialize GoogleGenAI with process.env.API_KEY directly as a named parameter
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
       const recordsText = records.map(r => 
@@ -37,13 +32,12 @@ export const GeminiService = {
         Format the output as plain text suitable for a WhatsApp message.
       `;
 
-      // Always use ai.models.generateContent to query GenAI with both model and contents
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: prompt,
       });
 
-      // text is a property that directly returns the extracted string output
+      // Directly access .text property from the response
       return response.text || "Could not generate summary.";
     } catch (error) {
       console.error("Gemini API Error:", error);

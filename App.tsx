@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, Suspense } from 'react';
+
+import React, { useState, useEffect, useRef, Suspense, Component, PropsWithChildren } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { TopHeader, BottomNav } from './components/Navigation';
 import { AttendanceRecord, Sewadar, Counter } from './types';
@@ -9,16 +10,19 @@ import { Calendar, Share2, Plus, ArrowRight, UserPlus, Search, Trash2, Clock, X,
 
 // --- Error Boundary ---
 interface ErrorBoundaryProps {
-  children?: React.ReactNode;
+  // children is included via PropsWithChildren or explicitly defined
 }
 
 interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-// Fixed ErrorBoundary by using React.Component to ensure props are correctly typed for the TypeScript compiler
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  public state: ErrorBoundaryState = { hasError: false };
+// Explicitly using Component from react to resolve props accessibility issues in some TS environments
+class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProps>, ErrorBoundaryState> {
+  constructor(props: PropsWithChildren<ErrorBoundaryProps>) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
   static getDerivedStateFromError(_error: any): ErrorBoundaryState {
     return { hasError: true };
@@ -44,7 +48,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
         </div>
       );
     }
-    // Using this.props.children is standard for class components and correctly typed via React.Component
+    
+    // Fixed: Standard access to this.props.children in a class component
     return this.props.children;
   }
 }
